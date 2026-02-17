@@ -1,0 +1,14 @@
+{
+  "id": "database-prisma",
+  "name": "Prisma ORM",
+  "description": "Type-safe database access with Prisma ORM, auto-generated client, and migrations",
+  "category": "database",
+  "icon": "database",
+  "dependencies": { "@prisma/client": "^5.9.1" },
+  "devDependencies": { "prisma": "^5.9.1" },
+  "config": {},
+  "envVars": { "DATABASE_URL": "postgresql://user:password@localhost:5432/mydb" },
+  "templates": [
+    { "src": "prisma/schema.prisma", "dest": "prisma/schema.prisma" }
+  ]
+}

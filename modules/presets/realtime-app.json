@@ -1,0 +1,7 @@
+{
+  "id": "realtime-app",
+  "name": "Real-time App",
+  "description": "Build real-time features with WebSockets, Redis caching, and PostgreSQL persistence",
+  "icon": "radio",
+  "modules": ["auth-jwt", "database-postgres", "websockets", "cache-redis"]
+}

@@ -1,0 +1,7 @@
+{
+  "id": "saas-starter",
+  "name": "SaaS Starter",
+  "description": "Everything you need for a SaaS backend: authentication, database, payments, and email",
+  "icon": "rocket",
+  "modules": ["auth-jwt", "database-postgres", "stripe-payments", "email-resend"]
+}

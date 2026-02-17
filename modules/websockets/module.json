@@ -1,0 +1,14 @@
+{
+  "id": "websockets",
+  "name": "WebSockets",
+  "description": "Real-time WebSocket support with Socket.IO for live updates and chat",
+  "category": "utilities",
+  "icon": "radio",
+  "dependencies": { "socket.io": "^4.7.4" },
+  "devDependencies": {},
+  "config": {},
+  "envVars": {},
+  "templates": [
+    { "src": "src/websocket.ts", "dest": "src/websocket.ts" }
+  ]
+}

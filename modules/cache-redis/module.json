@@ -1,0 +1,14 @@
+{
+  "id": "cache-redis",
+  "name": "Redis Cache",
+  "description": "Redis caching layer for fast data access, session storage, and rate limiting",
+  "category": "utilities",
+  "icon": "zap",
+  "dependencies": { "ioredis": "^5.3.2" },
+  "devDependencies": {},
+  "config": {},
+  "envVars": { "REDIS_URL": "redis://localhost:6379" },
+  "templates": [
+    { "src": "src/cache.ts", "dest": "src/cache.ts" }
+  ]
+}

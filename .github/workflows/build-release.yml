@@ -1,0 +1,94 @@
+name: Build and Release Epoxy
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+      - 'v*.*.*-*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+        include:
+          - os: windows-latest
+            artifact_name: Epoxy-Setup.exe
+            artifact_path: release/*.exe
+          - os: macos-latest
+            artifact_name: Epoxy.dmg
+            artifact_path: release/*.dmg
+          - os: ubuntu-latest
+            artifact_name: Epoxy.AppImage
+            artifact_path: release/*.AppImage
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Electron app
+        run: npm run electron:build
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: ${{ matrix.artifact_path }}
+          if-no-files-found: error
+
+  release:
+    name: Create GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Display structure of downloaded files
+        run: ls -R artifacts
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          draft: false
+          prerelease: ${{ contains(github.ref, 'beta') || contains(github.ref, 'alpha') || contains(github.ref, 'rc') }}
+          files: |
+            artifacts/**/*
+          body: |
+            ## Epoxy ${{ github.ref_name }}
+            
+            ### Downloads
+            - **Windows**: Epoxy-Setup.exe
+            - **macOS**: Epoxy.dmg
+            - **Linux**: Epoxy.AppImage
+            
+            ### Installation
+            1. Download the installer for your platform
+            2. Run the installer
+            3. Launch Epoxy and enter your license key from the [dashboard](https://packit.dev/dashboard/epoxy)
+            
+            ### What's New
+            See the commit history for changes in this release.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

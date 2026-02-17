@@ -1,0 +1,16 @@
+{
+  "id": "stripe-payments",
+  "name": "Stripe Payments",
+  "description": "Stripe integration with checkout sessions, webhooks, and subscription management",
+  "category": "payments",
+  "icon": "credit-card",
+  "dependencies": { "stripe": "^14.14.0" },
+  "devDependencies": {},
+  "config": {},
+  "envVars": { "STRIPE_SECRET_KEY": "sk_test_...", "STRIPE_WEBHOOK_SECRET": "whsec_..." },
+  "templates": [
+    { "src": "src/stripe.ts", "dest": "src/stripe.ts" },
+    { "src": "routes/api/payments/checkout.ts", "dest": "routes/api/payments/checkout.ts" },
+    { "src": "routes/api/payments/webhook.ts", "dest": "routes/api/payments/webhook.ts" }
+  ]
+}

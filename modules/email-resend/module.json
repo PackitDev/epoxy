@@ -1,0 +1,14 @@
+{
+  "id": "email-resend",
+  "name": "Resend Email",
+  "description": "Transactional email with Resend - send welcome emails, password resets, and notifications",
+  "category": "utilities",
+  "icon": "mail",
+  "dependencies": { "resend": "^3.1.0" },
+  "devDependencies": {},
+  "config": {},
+  "envVars": { "RESEND_API_KEY": "re_..." },
+  "templates": [
+    { "src": "src/email.ts", "dest": "src/email.ts" }
+  ]
+}

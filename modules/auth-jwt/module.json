@@ -1,0 +1,16 @@
+{
+  "id": "auth-jwt",
+  "name": "JWT Authentication",
+  "description": "Stateless JWT auth with bcrypt password hashing, login/register routes, and auth middleware",
+  "category": "auth",
+  "icon": "shield",
+  "dependencies": { "jsonwebtoken": "^9.0.2", "bcrypt": "^5.1.1" },
+  "devDependencies": { "@types/jsonwebtoken": "^9.0.5", "@types/bcrypt": "^5.0.2" },
+  "config": { "auth": { "provider": "jwt", "jwt": { "secret": "${JWT_SECRET}", "expiresIn": "7d" } } },
+  "envVars": { "JWT_SECRET": "change-this-to-a-random-secret-string" },
+  "templates": [
+    { "src": "src/middleware/auth.ts", "dest": "src/middleware/auth.ts" },
+    { "src": "routes/api/auth/login.ts", "dest": "routes/api/auth/login.ts" },
+    { "src": "routes/api/auth/register.ts", "dest": "routes/api/auth/register.ts" }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "database-postgres",
+  "name": "PostgreSQL Database",
+  "description": "PostgreSQL connection with pg driver, connection pooling, and query helpers",
+  "category": "database",
+  "icon": "database",
+  "dependencies": { "pg": "^8.11.3" },
+  "devDependencies": { "@types/pg": "^8.10.9" },
+  "config": { "database": { "type": "postgres", "url": "${DATABASE_URL}" } },
+  "envVars": { "DATABASE_URL": "postgresql://user:password@localhost:5432/mydb" },
+  "templates": [
+    { "src": "src/db.ts", "dest": "src/db.ts" }
+  ]
+}

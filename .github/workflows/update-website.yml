@@ -1,0 +1,54 @@
+name: Update Website Downloads
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  update-website:
+    name: Update Website with Latest Builds
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Epoxy repo
+        uses: actions/checkout@v4
+        with:
+          path: epoxy
+
+      - name: Checkout Website repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/packet-website
+          token: ${{ secrets.WEBSITE_UPDATE_TOKEN }}
+          path: website
+
+      - name: Download latest release assets
+        uses: robinraju/release-downloader@v1.8
+        with:
+          repository: ${{ github.repository }}
+          latest: true
+          fileName: '*'
+          out-file-path: downloads
+
+      - name: Copy downloads to website
+        run: |
+          mkdir -p website/public/downloads
+          cp downloads/Epoxy-Setup.exe website/public/downloads/Epoxy-Setup.exe || true
+          cp downloads/Epoxy*.dmg website/public/downloads/Epoxy.dmg || true
+          cp downloads/Epoxy*.AppImage website/public/downloads/Epoxy.AppImage || true
+
+      - name: Update website Epoxy page
+        run: |
+          cd website
+          # Update the available flags in Epoxy.tsx
+          sed -i "s/available: false/available: true/g" src/pages/dashboard/Epoxy.tsx || true
+
+      - name: Commit and push changes
+        run: |
+          cd website
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/downloads/ src/pages/dashboard/Epoxy.tsx
+          git diff --staged --quiet || git commit -m "Update Epoxy downloads to ${{ github.ref_name }}"
+          git push

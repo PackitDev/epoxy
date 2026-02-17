@@ -1,0 +1,155 @@
+{
+  "modules": [
+    {
+      "id": "auth-jwt",
+      "name": "JWT Authentication",
+      "description": "Stateless JWT auth with bcrypt password hashing, login/register routes, and auth middleware",
+      "category": "auth",
+      "icon": "shield",
+      "dependencies": { "jsonwebtoken": "^9.0.2", "bcrypt": "^5.1.1" },
+      "devDependencies": { "@types/jsonwebtoken": "^9.0.5", "@types/bcrypt": "^5.0.2" },
+      "config": { "auth": { "provider": "jwt", "jwt": { "secret": "${JWT_SECRET}", "expiresIn": "7d" } } },
+      "envVars": { "JWT_SECRET": "change-this-to-a-random-secret-string" },
+      "templates": [
+        { "src": "src/middleware/auth.ts", "dest": "src/middleware/auth.ts" },
+        { "src": "routes/api/auth/login.ts", "dest": "routes/api/auth/login.ts" },
+        { "src": "routes/api/auth/register.ts", "dest": "routes/api/auth/register.ts" }
+      ]
+    },
+    {
+      "id": "database-postgres",
+      "name": "PostgreSQL Database",
+      "description": "PostgreSQL connection with pg driver, connection pooling, and query helpers",
+      "category": "database",
+      "icon": "database",
+      "dependencies": { "pg": "^8.11.3" },
+      "devDependencies": { "@types/pg": "^8.10.9" },
+      "config": { "database": { "type": "postgres", "url": "${DATABASE_URL}" } },
+      "envVars": { "DATABASE_URL": "postgresql://user:password@localhost:5432/mydb" },
+      "templates": [
+        { "src": "src/db.ts", "dest": "src/db.ts" }
+      ]
+    },
+    {
+      "id": "database-prisma",
+      "name": "Prisma ORM",
+      "description": "Type-safe database access with Prisma ORM, auto-generated client, and migrations",
+      "category": "database",
+      "icon": "database",
+      "dependencies": { "@prisma/client": "^5.9.1" },
+      "devDependencies": { "prisma": "^5.9.1" },
+      "config": {},
+      "envVars": { "DATABASE_URL": "postgresql://user:password@localhost:5432/mydb" },
+      "templates": [
+        { "src": "prisma/schema.prisma", "dest": "prisma/schema.prisma" }
+      ]
+    },
+    {
+      "id": "react-frontend",
+      "name": "React Frontend",
+      "description": "React 18 + Vite frontend with Tailwind CSS, ready to connect to your API",
+      "category": "frontend",
+      "icon": "layout",
+      "dependencies": { "react": "^18.2.0", "react-dom": "^18.2.0" },
+      "devDependencies": { "@types/react": "^18.2.55", "@types/react-dom": "^18.2.19", "@vitejs/plugin-react": "^4.2.1", "tailwindcss": "^3.4.1", "autoprefixer": "^10.4.17", "postcss": "^8.4.35" },
+      "config": {},
+      "envVars": {},
+      "templates": []
+    },
+    {
+      "id": "stripe-payments",
+      "name": "Stripe Payments",
+      "description": "Stripe integration with checkout sessions, webhooks, and subscription management",
+      "category": "payments",
+      "icon": "credit-card",
+      "dependencies": { "stripe": "^14.14.0" },
+      "devDependencies": {},
+      "config": {},
+      "envVars": { "STRIPE_SECRET_KEY": "sk_test_...", "STRIPE_WEBHOOK_SECRET": "whsec_..." },
+      "templates": [
+        { "src": "src/stripe.ts", "dest": "src/stripe.ts" },
+        { "src": "routes/api/payments/checkout.ts", "dest": "routes/api/payments/checkout.ts" },
+        { "src": "routes/api/payments/webhook.ts", "dest": "routes/api/payments/webhook.ts" }
+      ]
+    },
+    {
+      "id": "email-resend",
+      "name": "Resend Email",
+      "description": "Transactional email with Resend - send welcome emails, password resets, and notifications",
+      "category": "utilities",
+      "icon": "mail",
+      "dependencies": { "resend": "^3.1.0" },
+      "devDependencies": {},
+      "config": {},
+      "envVars": { "RESEND_API_KEY": "re_..." },
+      "templates": [
+        { "src": "src/email.ts", "dest": "src/email.ts" }
+      ]
+    },
+    {
+      "id": "cache-redis",
+      "name": "Redis Cache",
+      "description": "Redis caching layer for fast data access, session storage, and rate limiting",
+      "category": "utilities",
+      "icon": "zap",
+      "dependencies": { "ioredis": "^5.3.2" },
+      "devDependencies": {},
+      "config": {},
+      "envVars": { "REDIS_URL": "redis://localhost:6379" },
+      "templates": [
+        { "src": "src/cache.ts", "dest": "src/cache.ts" }
+      ]
+    },
+    {
+      "id": "websockets",
+      "name": "WebSockets",
+      "description": "Real-time WebSocket support with Socket.IO for live updates and chat",
+      "category": "utilities",
+      "icon": "radio",
+      "dependencies": { "socket.io": "^4.7.4" },
+      "devDependencies": {},
+      "config": {},
+      "envVars": {},
+      "templates": [
+        { "src": "src/websocket.ts", "dest": "src/websocket.ts" }
+      ]
+    },
+    {
+      "id": "rate-limiting",
+      "name": "Rate Limiting",
+      "description": "Protect your API with configurable rate limiting middleware per route or globally",
+      "category": "utilities",
+      "icon": "shield-alert",
+      "dependencies": { "express-rate-limit": "^7.1.5" },
+      "devDependencies": {},
+      "config": {},
+      "envVars": {},
+      "templates": [
+        { "src": "src/middleware/rate-limit.ts", "dest": "src/middleware/rate-limit.ts" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "id": "saas-starter",
+      "name": "SaaS Starter",
+      "description": "Everything you need for a SaaS backend: authentication, database, payments, and email",
+      "icon": "rocket",
+      "modules": ["auth-jwt", "database-postgres", "stripe-payments", "email-resend"]
+    },
+    {
+      "id": "api-backend",
+      "name": "API Backend",
+      "description": "Production-ready API backend with auth, database, rate limiting, and structured logging",
+      "icon": "server",
+      "modules": ["auth-jwt", "database-postgres", "rate-limiting"]
+    },
+    {
+      "id": "realtime-app",
+      "name": "Real-time App",
+      "description": "Build real-time features with WebSockets, Redis caching, and PostgreSQL persistence",
+      "icon": "radio",
+      "modules": ["auth-jwt", "database-postgres", "websockets", "cache-redis"]
+    }
+  ]
+}

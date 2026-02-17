@@ -1,0 +1,7 @@
+{
+  "id": "api-backend",
+  "name": "API Backend",
+  "description": "Production-ready API backend with auth, database, rate limiting, and structured logging",
+  "icon": "server",
+  "modules": ["auth-jwt", "database-postgres", "rate-limiting"]
+}

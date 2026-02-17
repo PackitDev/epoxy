@@ -1,0 +1,14 @@
+{
+  "id": "rate-limiting",
+  "name": "Rate Limiting",
+  "description": "Protect your API with configurable rate limiting middleware per route or globally",
+  "category": "utilities",
+  "icon": "shield-alert",
+  "dependencies": { "express-rate-limit": "^7.1.5" },
+  "devDependencies": {},
+  "config": {},
+  "envVars": {},
+  "templates": [
+    { "src": "src/middleware/rate-limit.ts", "dest": "src/middleware/rate-limit.ts" }
+  ]
+}
